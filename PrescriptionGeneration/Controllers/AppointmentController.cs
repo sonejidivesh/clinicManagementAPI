@@ -28,7 +28,7 @@ namespace PrescriptionGeneration.Controllers
                 var doctor = await _context.Doctors.FindAsync(appointment.DoctorId);
                 if (doctor == null)
                 {
-                    return BadRequest("Doctor not found.");
+                    return BadRequest("Doctor not found.!");
                 }
 
                 // Add the appointment to the database
