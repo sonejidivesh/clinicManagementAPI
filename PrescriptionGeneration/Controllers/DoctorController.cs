@@ -27,7 +27,7 @@ namespace PrescriptionGeneration.Controllers
             return  Ok(list);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"),]
         public async Task<ActionResult<Doctor>> Get(int id)
         {
 

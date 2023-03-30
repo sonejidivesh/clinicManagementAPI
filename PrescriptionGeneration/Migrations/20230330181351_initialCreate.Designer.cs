@@ -12,8 +12,8 @@ using PrescriptionGeneration;
 namespace PrescriptionGeneration.Migrations
 {
     [DbContext(typeof(ClinicDbContext))]
-    [Migration("20230328120930_modifiedAppointmentdocotor")]
-    partial class modifiedAppointmentdocotor
+    [Migration("20230330181351_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,7 +47,14 @@ namespace PrescriptionGeneration.Migrations
                     b.Property<byte?>("Gender")
                         .HasColumnType("tinyint");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Specilazation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -75,6 +82,9 @@ namespace PrescriptionGeneration.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Completed")
+                        .HasColumnType("bit");
+
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
@@ -89,7 +99,7 @@ namespace PrescriptionGeneration.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("PrescriptionGeneration.Model.Specialization", b =>
+            modelBuilder.Entity("PrescriptionGeneration.Model.Prescription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,18 +107,24 @@ namespace PrescriptionGeneration.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DoctorId")
+                    b.Property<int>("AppointmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Specilaized")
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PatientName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("AppointmentId");
 
-                    b.ToTable("Specializations");
+                    b.ToTable("Prescriptions");
                 });
 
             modelBuilder.Entity("PrescriptionGeneration.Model.DoctorAppointment", b =>
@@ -122,16 +138,15 @@ namespace PrescriptionGeneration.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("PrescriptionGeneration.Model.Specialization", b =>
+            modelBuilder.Entity("PrescriptionGeneration.Model.Prescription", b =>
                 {
-                    b.HasOne("PrescriptionGeneration.Model.Doctor", null)
-                        .WithMany("Specilazation")
-                        .HasForeignKey("DoctorId");
-                });
+                    b.HasOne("PrescriptionGeneration.Model.DoctorAppointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("PrescriptionGeneration.Model.Doctor", b =>
-                {
-                    b.Navigation("Specilazation");
+                    b.Navigation("Appointment");
                 });
 #pragma warning restore 612, 618
         }

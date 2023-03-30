@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PrescriptionGeneration.APIModel;
 using PrescriptionGeneration.Model;
 
 namespace PrescriptionGeneration.Controllers
@@ -16,7 +18,7 @@ namespace PrescriptionGeneration.Controllers
             }
 
             [HttpPost]
-            public async Task<IActionResult> BookAppointment([FromBody] DoctorAppointment appointment)
+            public async Task<IActionResult> BookAppointment([FromBody] AppointmentModel appointment)
             {
                 // Check if the appointment is valid
                 if (appointment == null)
@@ -31,14 +33,32 @@ namespace PrescriptionGeneration.Controllers
                     return BadRequest("Doctor not found.!");
                 }
 
-                // Add the appointment to the database
-                _context.Appointments.Add(appointment);
+                _context.Entry(doctor).State=Microsoft.EntityFrameworkCore.EntityState.Detached;
+            // Add the appointment to the database
+                var docApp = new DoctorAppointment
+                {
+                    DoctorId = appointment.DoctorId,
+                    PatientName = appointment.PatientName,
+                    AppointmentDateTime = appointment.AppointmentDateTime,
+                    AppointmentNotes = appointment.AppointmentNotes,
+                    AppointmentReason = appointment.AppointmentReason,
+                };    
+
+                _context.Appointments.Add(docApp);
                 await _context.SaveChangesAsync();
 
-                return Ok("Appointment booked successfully.");
+                return Ok(new {  message="Appointment booked successfully." , appointmentDetails = appointment});
             }
-        
 
+            [HttpGet]
+            public async Task<ActionResult<List<DoctorAppointment>>> Get()
+            {
+
+                var appointmentList = await _context.Appointments.Where(x=>(x.AppointmentDateTime.Date == DateTime.Today) ).ToListAsync();
+
+                return Ok(appointmentList);
+
+            }
 
 
 

@@ -20,7 +20,7 @@ namespace PrescriptionGeneration.BusinessLogic
         {
             try
             {
-                return await _context.Doctors.Include(s=>s.Specilazation)
+                return await _context.Doctors
                     .ToListAsync();
             }
             catch (Exception ex)

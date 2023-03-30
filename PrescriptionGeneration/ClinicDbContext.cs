@@ -14,10 +14,9 @@ namespace PrescriptionGeneration
         }
         public DbSet<Doctor> Doctors { get; set; }
 
-        public DbSet<Specialization>  Specializations  { get; set; }
-
 
         public DbSet<DoctorAppointment> Appointments { get; set; }
+        public DbSet<Prescription> Prescriptions { get; set; }
 
 
     }
