@@ -16,7 +16,7 @@ phases:
       - dotnet build ${PROJECT}/${PROJECT}.csproj
   post_build:
     commands:
-      - dotnet publish -c Release -o ./ ${PROJECT}/${PROJECT}.csproj
+      - dotnet publish -c Release -o ./app ${PROJECT}/${PROJECT}.csproj
 
 
 artifacts:
