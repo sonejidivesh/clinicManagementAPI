@@ -16,10 +16,10 @@ phases:
       - dotnet build -c Release
   post_build:
     commands:
-      - dotnet publish -c Release -o ./app ./${PROJECT}/${PROJECT}.csproj --self-contained false
-      - cp Procfile ./app
+      - dotnet publish -c Release -r linux-x64 -o ./build_output  ./${PROJECT}/${PROJECT}.csproj --self-contained false
+      - cp Procfile ./build_output
 artifacts:
   files:
     - '**/*'
-  base-directory: ./app
+  base-directory: ./build_output
   discard-paths: no
