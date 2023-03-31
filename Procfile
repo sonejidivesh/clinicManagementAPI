@@ -1,1 +1,1 @@
-web: dotnet exec ./app/PrescriptionGeneration.dll --urls https://0.0.0.0:5000
+web: dotnet ./PrescriptionGeneration.dll 

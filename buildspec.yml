@@ -10,16 +10,16 @@ phases:
       dotnet: ${DOTNET_CORE_RUNTIME}
   pre_build:
     commands:
-      - dotnet restore 
+      - dotnet restore ${PROJECT}/${PROJECT}.csproj
   build:
     commands:
-      - dotnet build -c Release
+      - dotnet build ${PROJECT}/${PROJECT}.csproj
   post_build:
     commands:
-      - dotnet publish -c Release -r linux-x64 -o ./build_output  ./${PROJECT}/${PROJECT}.csproj --self-contained false
+      - dotnet publish -c Release  -o ./ ${PROJECT}/${PROJECT}.csproj
       - cp Procfile ./build_output
+
+
 artifacts:
   files:
     - '**/*'
-  base-directory: ./build_output
-  discard-paths: no
