@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PrescriptionGeneration.Model
 {
-    
+
     public class Doctor
     {
 
@@ -16,7 +16,7 @@ namespace PrescriptionGeneration.Model
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Specilazation { get; set; } = string.Empty;
-        public Boolean IsActive { get; set; }
+        public bool IsActive { get; set; }
 
 
     }

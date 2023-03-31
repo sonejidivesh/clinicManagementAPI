@@ -10,7 +10,7 @@
         public string AppointmentReason { get; set; } = string.Empty;
         public string AppointmentNotes { get; set; } = string.Empty;
 
-        public Boolean Completed { get; set; }
+        public bool Completed { get; set; }
     }
 
 }

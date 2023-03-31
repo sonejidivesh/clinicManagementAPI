@@ -6,11 +6,11 @@ using System.Reflection.Metadata;
 
 namespace PrescriptionGeneration
 {
-    public class ClinicDbContext:DbContext
+    public class ClinicDbContext : DbContext
     {
-        public ClinicDbContext(DbContextOptions<ClinicDbContext> options):base(options)
+        public ClinicDbContext(DbContextOptions<ClinicDbContext> options) : base(options)
         {
-            
+
         }
         public DbSet<Doctor> Doctors { get; set; }
 

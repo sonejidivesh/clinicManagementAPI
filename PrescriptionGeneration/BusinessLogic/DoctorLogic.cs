@@ -36,7 +36,7 @@ namespace PrescriptionGeneration.BusinessLogic
             try
             {
                 return await _context.Doctors.FirstOrDefaultAsync(x => x.Id == id);
-                  
+
             }
             catch (Exception ex)
             {
@@ -50,11 +50,12 @@ namespace PrescriptionGeneration.BusinessLogic
         {
             try
             {
-                 await _context.Doctors.AddAsync(request);
+                await _context.Doctors.AddAsync(request);
                 _context.SaveChangesAsync();
                 return request;
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new Doctor();
             }

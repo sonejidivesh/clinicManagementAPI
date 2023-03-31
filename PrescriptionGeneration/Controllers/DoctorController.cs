@@ -14,7 +14,7 @@ namespace PrescriptionGeneration.Controllers
 
         public DoctorController(ClinicDbContext context)
         {
-             _doctorLogic =  new DoctorLogic (context);
+            _doctorLogic = new DoctorLogic(context);
 
         }
 
@@ -22,9 +22,9 @@ namespace PrescriptionGeneration.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Doctor>>> Get()
         {
-            
+
             var list = await _doctorLogic.GetList();
-            return  Ok(list);
+            return Ok(list);
         }
 
         [HttpGet("{id}"),]
@@ -37,10 +37,10 @@ namespace PrescriptionGeneration.Controllers
         [HttpPost]
         public async Task<ActionResult<Doctor>> Post(Doctor request)
         {
-          
+
             var addDoctor = await _doctorLogic.Post(request);
             return Ok(addDoctor);
         }
-        
+
     }
 }
