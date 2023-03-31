@@ -2,7 +2,7 @@ version: 0.2
 env:
     variables:
         PROJECT: PrescriptionGeneration
-        DOTNET_CORE_RUNTIME: 7.0
+        DOTNET_CORE_RUNTIME: 6.0
 
 phases:
   install:
