@@ -1,27 +1,17 @@
 version: 0.2
-
 phases:
+  install:
+    runtime-versions:
+      dotnet: 7.0
   pre_build:
     commands:
-      - echo Entered the pre_build phase...
-      - echo Restoring NuGet packages...
-      - dotnet restore
+      - dotnet restore PrescriptionGeneration/PrescriptionGeneration.csproj
   build:
     commands:
-      - echo Entered the build phase...
-      - echo Building the application...
-      - dotnet build
-      - echo Publishing the application...
-      - dotnet publish -c Release
+      - dotnet build PrescriptionGeneration/PrescriptionGeneration.csproj
   post_build:
     commands:
-      - echo Entered the post_build phase...
-      - echo Zipping the published artifacts...
-      - cd <YOUR_PROJECT_DIRECTORY>/bin/Release/netcoreapp3.1/publish
-      - zip -r myapp.zip *
-      - echo Uploading the application to S3...
-      - aws s3 cp myapp.zip s3://<YOUR_S3_BUCKET_NAME>/myapp.zip
+      - dotnet publish -c Release -o ./app/ PrescriptionGeneration/PrescriptionGeneration.csproj
 artifacts:
   files:
-    - myapp.zip
-  discard-paths: yes
+    - '**/*'
