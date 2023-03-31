@@ -1,17 +1,25 @@
 version: 0.2
+env:
+    variables:
+        PROJECT: PrescriptionGeneration
+        DOTNET_CORE_RUNTIME: 7.0
+
 phases:
   install:
     runtime-versions:
-      dotnet: 7.0
+      dotnet: ${DOTNET_CORE_RUNTIME}
   pre_build:
     commands:
-      - dotnet restore PrescriptionGeneration/PrescriptionGeneration.csproj
+      - dotnet restore 
   build:
     commands:
-      - dotnet build PrescriptionGeneration/PrescriptionGeneration.csproj
+      - dotnet build -c Release
   post_build:
     commands:
-      - dotnet publish -c Release -o ./app/ PrescriptionGeneration/PrescriptionGeneration.csproj
+      - dotnet publish -c Release -o ./app ./${PROJECT}/${PROJECT}.csproj --self-contained false
+      - cp Procfile ./app
 artifacts:
   files:
     - '**/*'
+  base-directory: ./app
+  discard-paths: no
