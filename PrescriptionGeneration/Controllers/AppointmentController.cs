@@ -61,6 +61,16 @@ namespace PrescriptionGeneration.Controllers
             }
 
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<DoctorAppointment>>> Get(int id)
+        {
+
+            var appointment = await _context.Appointments.FirstOrDefaultAsync(x=>x.Id == id);
+
+            return Ok(appointment);
+
+        }
+
 
     }
 }
