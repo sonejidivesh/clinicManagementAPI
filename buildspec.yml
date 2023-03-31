@@ -16,8 +16,7 @@ phases:
       - dotnet build ${PROJECT}/${PROJECT}.csproj
   post_build:
     commands:
-      - dotnet publish -c Release  -o ./ ${PROJECT}/${PROJECT}.csproj
-      - cp Procfile ./build_output
+      - dotnet publish -c Release -o ./ ${PROJECT}/${PROJECT}.csproj
 
 
 artifacts:
