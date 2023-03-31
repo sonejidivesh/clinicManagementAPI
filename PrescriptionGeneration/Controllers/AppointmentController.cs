@@ -60,6 +60,17 @@ namespace PrescriptionGeneration.Controllers
 
         }
 
+        [HttpGet("/Apointment-List-Doctor/{id}")]
+        
+        public async Task<ActionResult<List<DoctorAppointment>>> GetList(int id)
+        {
+
+            var appointmentList = await _context.Appointments.Where(x => x.AppointmentDateTime.Date == DateTime.Today && x.DoctorId == id ).ToListAsync();
+
+            return Ok(appointmentList);
+
+        }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<DoctorAppointment>>> Get(int id)

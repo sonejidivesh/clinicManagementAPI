@@ -18,6 +18,8 @@ namespace PrescriptionGeneration
         public DbSet<DoctorAppointment> Appointments { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
 
+        public DbSet<DoctorLogin> DoctorLogins { get; set; }
+
 
     }
 }
