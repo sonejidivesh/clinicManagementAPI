@@ -1,1 +1,1 @@
-web: dotnet ./PrescriptionG.dll 
+web: dotnet ./app/PrescriptionGeneration.dll 
