@@ -104,6 +104,9 @@ namespace PrescriptionGeneration.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DoctorName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -113,6 +116,8 @@ namespace PrescriptionGeneration.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
 
                     b.ToTable("DoctorLogins");
                 });
@@ -127,6 +132,9 @@ namespace PrescriptionGeneration.Migrations
 
                     b.Property<double>("Dosage")
                         .HasColumnType("float");
+
+                    b.Property<int>("Frequency")
+                        .HasColumnType("int");
 
                     b.Property<int>("MedicationId")
                         .HasColumnType("int");
@@ -178,6 +186,15 @@ namespace PrescriptionGeneration.Migrations
                         .IsRequired();
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("PrescriptionGeneration.Model.DoctorLogin", b =>
+                {
+                    b.HasOne("PrescriptionGeneration.Model.Doctor", "DoctorDetails")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.Navigation("DoctorDetails");
                 });
 
             modelBuilder.Entity("PrescriptionGeneration.Model.MedicationPrescribed", b =>

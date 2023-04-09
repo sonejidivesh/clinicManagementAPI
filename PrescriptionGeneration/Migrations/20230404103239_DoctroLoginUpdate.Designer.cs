@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using PrescriptionGeneration;
 
 #nullable disable
 
 namespace PrescriptionGeneration.Migrations
 {
     [DbContext(typeof(ClinicDbContext))]
-    [Migration("20230330181351_initialCreate")]
-    partial class initialCreate
+    [Migration("20230404103239_DoctroLoginUpdate")]
+    partial class DoctroLoginUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,6 +99,58 @@ namespace PrescriptionGeneration.Migrations
                     b.ToTable("Appointments");
                 });
 
+            modelBuilder.Entity("PrescriptionGeneration.Model.DoctorLogin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DoctorName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId")
+                        .IsUnique()
+                        .HasFilter("[DoctorId] IS NOT NULL");
+
+                    b.ToTable("DoctorLogins");
+                });
+
+            modelBuilder.Entity("PrescriptionGeneration.Model.MedicationPrescribed", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Dosage")
+                        .HasColumnType("float");
+
+                    b.Property<int>("MedicationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrescriptionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrescriptionId");
+
+                    b.ToTable("MedicationPrescribeds");
+                });
+
             modelBuilder.Entity("PrescriptionGeneration.Model.Prescription", b =>
                 {
                     b.Property<int>("Id")
@@ -137,6 +190,26 @@ namespace PrescriptionGeneration.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("PrescriptionGeneration.Model.DoctorLogin", b =>
+                {
+                    b.HasOne("PrescriptionGeneration.Model.Doctor", "DoctorDetails")
+                        .WithOne("DoctorLoginDetail")
+                        .HasForeignKey("PrescriptionGeneration.Model.DoctorLogin", "DoctorId");
+
+                    b.Navigation("DoctorDetails");
+                });
+
+            modelBuilder.Entity("PrescriptionGeneration.Model.MedicationPrescribed", b =>
+                {
+                    b.HasOne("PrescriptionGeneration.Model.Prescription", "Prescription")
+                        .WithMany("MedicationPrescribed")
+                        .HasForeignKey("PrescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Prescription");
+                });
+
             modelBuilder.Entity("PrescriptionGeneration.Model.Prescription", b =>
                 {
                     b.HasOne("PrescriptionGeneration.Model.DoctorAppointment", "Appointment")
@@ -146,6 +219,17 @@ namespace PrescriptionGeneration.Migrations
                         .IsRequired();
 
                     b.Navigation("Appointment");
+                });
+
+            modelBuilder.Entity("PrescriptionGeneration.Model.Doctor", b =>
+                {
+                    b.Navigation("DoctorLoginDetail")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PrescriptionGeneration.Model.Prescription", b =>
+                {
+                    b.Navigation("MedicationPrescribed");
                 });
 #pragma warning restore 612, 618
         }

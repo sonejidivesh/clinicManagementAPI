@@ -23,5 +23,8 @@ namespace PrescriptionGeneration
         public DbSet<DoctorLogin> DoctorLogins { get; set; }
 
 
+
+
+       
     }
 }

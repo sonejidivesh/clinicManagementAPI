@@ -9,6 +9,7 @@
 
         public double Dosage { get; set; }
 
+        public int Frequency { get; set; }
         public int PrescriptionId { get; set; }
 
         public virtual Prescription Prescription { get; set; }

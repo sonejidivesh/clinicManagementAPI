@@ -13,5 +13,9 @@ namespace PrescriptionGeneration.Model
 
         [Required]
         public string Password { get; set; }
+
+        public int? DoctorId { get; set; }
+
+        public virtual Doctor DoctorDetails { get; set; }
     }
 }

@@ -18,6 +18,8 @@ namespace PrescriptionGeneration.Model
         public string Specilazation { get; set; } = string.Empty;
         public bool IsActive { get; set; }
 
+        //public DoctorLogin DoctorLoginDetail { get; set; }
+
 
     }
 }

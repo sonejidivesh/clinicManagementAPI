@@ -17,6 +17,9 @@ namespace PrescriptionGeneration.Controllers
 
         }
 
+        
+        
+
         [HttpGet("{id}")]
         public async Task<ActionResult<List<MedicationPrescribed>>> GetMedicationPrescribed(int id)
         {

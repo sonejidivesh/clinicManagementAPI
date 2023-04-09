@@ -1,11 +1,37 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using PrescriptionGeneration;
+using PrescriptionGeneration.Interface;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+//builder.Services.AddAuthentication(authOptions =>
+//{
+//    authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+//}).AddJwtBearer(jwtOptions =>
+//{
+//    var key = builder.Configuration.GetValue<string>("JwtConfig:Key");
+//    var keyByte = Encoding.ASCII.GetBytes(key);
+//    jwtOptions.SaveToken = true;
+//    jwtOptions.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+//    {
+//        IssuerSigningKey = new SymmetricSecurityKey(keyByte),
+//        ValidateAudience = false,
+//        ValidateLifetime = true,
+//        ValidateIssuer= false,
+//        ClockSkew=TimeSpan.Zero
+    
+//    };
+//});
+//builder.Services.AddSingleton(typeof(IJwtTokenManager),typeof(IJwtTokenManager));
 builder.Services.AddDbContext<ClinicDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
@@ -39,7 +65,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(policy);
-
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

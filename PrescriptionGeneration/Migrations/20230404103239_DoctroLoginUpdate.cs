@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PrescriptionGeneration.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreate : Migration
+    public partial class DoctroLoginUpdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,26 @@ namespace PrescriptionGeneration.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DoctorLogins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorLogins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoctorLogins_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Prescriptions",
                 columns: table => new
                 {
@@ -76,10 +96,43 @@ namespace PrescriptionGeneration.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MedicationPrescribeds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicationId = table.Column<int>(type: "int", nullable: false),
+                    Dosage = table.Column<double>(type: "float", nullable: false),
+                    PrescriptionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicationPrescribeds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MedicationPrescribeds_Prescriptions_PrescriptionId",
+                        column: x => x.PrescriptionId,
+                        principalTable: "Prescriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_DoctorId",
                 table: "Appointments",
                 column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorLogins_DoctorId",
+                table: "DoctorLogins",
+                column: "DoctorId",
+                unique: true,
+                filter: "[DoctorId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MedicationPrescribeds_PrescriptionId",
+                table: "MedicationPrescribeds",
+                column: "PrescriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prescriptions_AppointmentId",
@@ -90,6 +143,12 @@ namespace PrescriptionGeneration.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DoctorLogins");
+
+            migrationBuilder.DropTable(
+                name: "MedicationPrescribeds");
+
             migrationBuilder.DropTable(
                 name: "Prescriptions");
 
