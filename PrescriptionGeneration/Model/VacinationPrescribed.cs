@@ -2,16 +2,13 @@
 
 namespace PrescriptionGeneration.Model
 {
-    public class MedicationPrescribed
+    public class VacinationPrescribed
     {
 
         public int Id { get; set; }
+        public int VacinationId { get; set; }
+        public double Dose { get; set; }
 
-        public int MedicationId { get; set; }
-
-        public double Dosage { get; set; }
-
-        public int Frequency { get; set; }
         public int PrescriptionId { get; set; }
 
         [JsonIgnore]

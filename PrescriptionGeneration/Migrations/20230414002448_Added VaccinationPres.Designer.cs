@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrescriptionGeneration;
 
@@ -11,9 +12,11 @@ using PrescriptionGeneration;
 namespace PrescriptionGeneration.Migrations
 {
     [DbContext(typeof(ClinicDbContext))]
-    partial class ClinicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230414002448_Added VaccinationPres")]
+    partial class AddedVaccinationPres
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,27 +125,6 @@ namespace PrescriptionGeneration.Migrations
                     b.ToTable("DoctorLogins");
                 });
 
-            modelBuilder.Entity("PrescriptionGeneration.Model.MedicalTestPrescribed", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PrescriptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TestId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PrescriptionId");
-
-                    b.ToTable("medicalTestPrescribeds");
-                });
-
             modelBuilder.Entity("PrescriptionGeneration.Model.MedicationPrescribed", b =>
                 {
                     b.Property<int>("Id")
@@ -201,30 +183,6 @@ namespace PrescriptionGeneration.Migrations
                     b.ToTable("Prescriptions");
                 });
 
-            modelBuilder.Entity("PrescriptionGeneration.Model.VacinationPrescribed", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<double>("Dose")
-                        .HasColumnType("float");
-
-                    b.Property<int>("PrescriptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VacinationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PrescriptionId");
-
-                    b.ToTable("vacinationPrescribeds");
-                });
-
             modelBuilder.Entity("PrescriptionGeneration.Model.DoctorAppointment", b =>
                 {
                     b.HasOne("PrescriptionGeneration.Model.Doctor", "Doctor")
@@ -243,17 +201,6 @@ namespace PrescriptionGeneration.Migrations
                         .HasForeignKey("DoctorId");
 
                     b.Navigation("DoctorDetails");
-                });
-
-            modelBuilder.Entity("PrescriptionGeneration.Model.MedicalTestPrescribed", b =>
-                {
-                    b.HasOne("PrescriptionGeneration.Model.Prescription", "Prescription")
-                        .WithMany()
-                        .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Prescription");
                 });
 
             modelBuilder.Entity("PrescriptionGeneration.Model.MedicationPrescribed", b =>
@@ -276,17 +223,6 @@ namespace PrescriptionGeneration.Migrations
                         .IsRequired();
 
                     b.Navigation("Appointment");
-                });
-
-            modelBuilder.Entity("PrescriptionGeneration.Model.VacinationPrescribed", b =>
-                {
-                    b.HasOne("PrescriptionGeneration.Model.Prescription", "Prescription")
-                        .WithMany()
-                        .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Prescription");
                 });
 
             modelBuilder.Entity("PrescriptionGeneration.Model.Prescription", b =>

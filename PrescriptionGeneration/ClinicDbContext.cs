@@ -20,6 +20,10 @@ namespace PrescriptionGeneration
 
         public DbSet<MedicationPrescribed> MedicationPrescribeds { get; set; }
 
+        public DbSet<VacinationPrescribed>  vacinationPrescribeds { get; set; }
+
+        public  DbSet<MedicalTestPrescribed> medicalTestPrescribeds { get; set; }
+
         public DbSet<DoctorLogin> DoctorLogins { get; set; }
 
 
